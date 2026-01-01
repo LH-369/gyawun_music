@@ -1155,7 +1155,6 @@ BottomModalLayout _playlistBottomModal(BuildContext context, Map playlist) {
             onTap: () async {
               Navigator.pop(context);
               await GetIt.I<MediaPlayer>().playNext(Map.from(playlist));
-              GetIt.I<MediaPlayer>().player.play();
             },
           ),
           AdaptiveListTile(
@@ -1438,7 +1437,6 @@ BottomModalLayout _downloadDetailsBottomModal(
             onTap: () async {
               Navigator.pop(context);
               await GetIt.I<MediaPlayer>().playNext(Map.from(playlist));
-              GetIt.I<MediaPlayer>().player.play();
             },
           ),
           AdaptiveListTile(
