@@ -1394,7 +1394,7 @@ BottomModalLayout _downloadDetailsBottomModal(
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
-      leading: (playlist['songs']?.length > 0)
+      leading: (playlist['songs']?.length > 0 && playlist['type'] != "SONGS")
           ? (playlist['type'] == "ALBUM")
                 ? PlaylistThumbnail(
                     playlist: [playlist['songs'][0]],
@@ -1407,15 +1407,15 @@ BottomModalLayout _downloadDetailsBottomModal(
                     radius: 8,
                   )
           : Container(
-              height: 50,
-              width: 50,
+              height: 40,
+              width: 40,
               decoration: BoxDecoration(
-                color: greyColor,
-                borderRadius: BorderRadius.circular(10),
+                color: Theme.of(context).colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
                 CupertinoIcons.music_note_list,
-                color: context.isDarkMode ? Colors.white : Colors.black,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
               ),
             ),
       subtitle: playlist['subtitle'] != null

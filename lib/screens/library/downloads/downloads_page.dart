@@ -1,4 +1,5 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -112,7 +113,7 @@ class _DownloadsBody extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         child: Icon(
-          Icons.music_note,
+          CupertinoIcons.music_note_list,
           color: Theme.of(context).colorScheme.onPrimaryContainer,
         ),
       );
