@@ -162,6 +162,7 @@ class _PlayerPageState extends State<PlayerPage> {
                       ),
                     ),
                     child: Scaffold(
+                      resizeToAvoidBottomInset: false,
                       appBar: PreferredSize(
                         preferredSize: AppBar().preferredSize,
                         child: AppBar(
@@ -213,9 +214,9 @@ class _PlayerPageState extends State<PlayerPage> {
                         width: double.maxFinite,
                         child: LayoutBuilder(
                           builder: (context, constraints) {
-                            EdgeInsets padding = MediaQuery.of(context).padding;
-                            double maxWidth =
-                                constraints.maxWidth -
+                            EdgeInsets padding =
+                                MediaQuery.of(context).viewPadding;
+                            double maxWidth = constraints.maxWidth -
                                 padding.left -
                                 padding.right;
                             double maxHeight =
@@ -279,9 +280,8 @@ class _PlayerPageState extends State<PlayerPage> {
                                     topRight: Radius.circular(20),
                                   ),
                                   boxShadow: const [],
-                                  minHeight:
-                                      50 +
-                                      MediaQuery.of(context).padding.bottom,
+                                  minHeight: 50 +
+                                      MediaQuery.of(context).viewPadding.bottom,
                                   panel: ClipRRect(
                                     borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(20),
@@ -308,11 +308,10 @@ class _PlayerPageState extends State<PlayerPage> {
                                                 sigmaY: 3,
                                               ),
                                               child: Container(
-                                                height:
-                                                    50 +
-                                                    MediaQuery.of(
-                                                      context,
-                                                    ).padding.bottom,
+                                                height: 50 +
+                                                    MediaQuery.of(context)
+                                                        .viewPadding
+                                                        .bottom,
                                                 width: double.maxFinite,
                                                 decoration: BoxDecoration(
                                                   color: Theme.of(context)
@@ -399,29 +398,30 @@ class Artwork extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: song == null
-            ? Icon(Icons.music_note, size: width * 0.5)
-            : SafeArea(
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    return GestureDetector(
-                      onTap: () {
-                        setShowLyrics();
-                      },
-                      child: Center(
-                        child: showLyrics
-                            ? LyricsBox(
-                                currentSong: song!,
-                                size: Size(width, width),
-                              )
-                            : Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withAlpha(30),
-                                      spreadRadius: 10,
-                                      blurRadius: 10,
-                                      offset: const Offset(0, 3),
+            ? Icon(
+                Icons.music_note,
+                size: width * 0.5,
+              )
+            : Padding(
+                padding: MediaQuery.of(context).viewPadding,
+                child: LayoutBuilder(builder: (context, constraints) {
+                  return GestureDetector(
+                    onTap: () {
+                      setShowLyrics();
+                    },
+                    child: Center(
+                      child: showLyrics
+                          ? LyricsBox(
+                              currentSong: song!, size: Size(width, width))
+                          : Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withAlpha(30),
+                                    spreadRadius: 10,
+                                    blurRadius: 10,
+                                    offset: const Offset(0, 3),
                                     ),
                                   ],
                                 ),
@@ -623,7 +623,7 @@ class NameAndControls extends StatelessWidget {
               ],
             ),
             if (song != null && !isRow)
-              SizedBox(height: 55 + MediaQuery.of(context).padding.bottom),
+              SizedBox(height: 55 + MediaQuery.of(context).viewPadding.bottom)
           ],
         ),
       ),
