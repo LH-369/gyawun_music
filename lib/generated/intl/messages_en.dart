@@ -163,6 +163,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Personalised_Content": MessageLookupByLibrary.simpleMessage(
       "Personalised Content",
     ),
+    "PlayAll": MessageLookupByLibrary.simpleMessage("Play All"),
     "Play_Next": MessageLookupByLibrary.simpleMessage("Play Next"),
     "Playback_History_Deleted": MessageLookupByLibrary.simpleMessage(
       "Playback History Deleted",
@@ -210,6 +211,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Restoring Missing Songs...",
     ),
     "Retry": MessageLookupByLibrary.simpleMessage("Retry"),
+    "Rotate_device": MessageLookupByLibrary.simpleMessage(
+      "Rotate your device to type.",
+    ),
     "Save": MessageLookupByLibrary.simpleMessage("Save"),
     "Saved": MessageLookupByLibrary.simpleMessage("Saved"),
     "Search_Gyawun": MessageLookupByLibrary.simpleMessage("Search Gyawun"),

@@ -175,6 +175,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Personalised_Content": MessageLookupByLibrary.simpleMessage(
       "Contenuti personalizzati",
     ),
+    "PlayAll": MessageLookupByLibrary.simpleMessage("Riproduci"),
     "Play_Next": MessageLookupByLibrary.simpleMessage("Riproduci dopo"),
     "Playback_History_Deleted": MessageLookupByLibrary.simpleMessage(
       "Cronologia di riproduzione eliminata",
@@ -224,6 +225,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ripristino brani mancanti...",
     ),
     "Retry": MessageLookupByLibrary.simpleMessage("Riprova"),
+    "Rotate_device": MessageLookupByLibrary.simpleMessage(
+      "Ruota il dispositivo per scrivere.",
+    ),
     "Save": MessageLookupByLibrary.simpleMessage("Salva"),
     "Saved": MessageLookupByLibrary.simpleMessage("Salvati"),
     "Search_Gyawun": MessageLookupByLibrary.simpleMessage("Cerca in Gyawun"),

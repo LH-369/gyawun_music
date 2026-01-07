@@ -269,5 +269,9 @@
   "QueuedCount": "Queued ({count})",
   "@QueuedCount": {},
   "FileNotFound": "File not found",
-  "@FileNotFound": {}
+  "@FileNotFound": {},
+  "PlayAll": "Play All",
+  "@PlayAll": {},
+  "Rotate_device": "Rotate your device to type.",
+  "@Rotate_device": {}
 }
