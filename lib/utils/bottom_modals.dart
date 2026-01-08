@@ -368,7 +368,7 @@ Widget _playlistRenameBottomModal(
                           FocusScope.of(context).unfocus();
                           BottomMessage.showText(
                             context,
-                            S.of(context).Rotate_device,
+                            S.of(context).Rotate_Device,
                           );
                         }
                       },
@@ -492,7 +492,7 @@ Widget _createPlaylistModal(BuildContext context, Map<dynamic, dynamic>? item) {
                     FocusScope.of(context).unfocus();
                     BottomMessage.showText(
                       context,
-                      S.of(context).Rotate_device,
+                      S.of(context).Rotate_Device,
                     );
                   }
                 },
@@ -571,7 +571,7 @@ Widget _importPlaylistModal(BuildContext context) {
                         FocusScope.of(context).unfocus();
                         BottomMessage.showText(
                           context,
-                          S.of(context).Rotate_device,
+                          S.of(context).Rotate_Device,
                         );
                       }
                     },
@@ -789,7 +789,7 @@ Widget _textFieldBottomModal(
                           FocusScope.of(context).unfocus();
                           BottomMessage.showText(
                             context,
-                            S.of(context).Rotate_device,
+                            S.of(context).Rotate_Device,
                           );
                         }
                       },
