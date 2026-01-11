@@ -40,7 +40,7 @@ class BackupStorageCubit extends Cubit<BackupStorageState> {
 
   Future<void> setAppFolder(String path) async {
     _settingsManager.appFolder = path;
-    await _fileStorage.updateDirectories();
+    await _fileStorage.setupPaths();
   }
 
   Future<void> restore() async {
