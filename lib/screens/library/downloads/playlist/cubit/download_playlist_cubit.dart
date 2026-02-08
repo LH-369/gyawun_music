@@ -69,7 +69,7 @@ class DownloadPlaylistCubit extends Cubit<DownloadPlaylistState> {
       final exists = await File(path).exists();
       final status = song['status'];
 
-      if (!exists && status != 'DELETED') {
+      if (!exists && status == 'DOWNLOADED') {
         await _manager.updateStatus(song['videoId'], 'DELETED');
       }
     }
