@@ -138,6 +138,9 @@ class _LibraryBody extends StatelessWidget {
                           subtitle: Text(S.of(context).nSongs(downloadsCount)),
                           trailing: Icon(FluentIcons.chevron_right_24_filled),
                           onTap: () => context.push('/library/downloads'),
+                          onLongPress: () {
+                            Modals.showDownloadBottomModal(context);
+                          },
                         ),
                         ExpressiveListTile(
                           title: Text(S.of(context).History),

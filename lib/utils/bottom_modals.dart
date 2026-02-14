@@ -2,18 +2,20 @@ import 'dart:io';
 import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:duration_picker/duration_picker.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gyawun/core/extensions/random_material_shape.dart';
+import 'package:gyawun/core/widgets/rounded_polygon_icon.dart';
 import 'package:gyawun/screens/settings/player/equalizer/equalizer_page.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../generated/l10n.dart';
+import '../screens/settings/widgets/color_icon.dart';
 import '../services/bottom_message.dart';
 import '../services/download_manager.dart';
 import '../services/favourites_manager.dart';
@@ -1154,38 +1156,29 @@ BottomModalLayout _playlistBottomModal(BuildContext context, Map playlist) {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
-      leading:
-          playlist['isPredefined'] != false ||
-              (playlist['songs'] != null && playlist['songs']?.length > 0)
+      leading: (playlist['isPredefined'] == true)
           ? ClipRRect(
               borderRadius: BorderRadius.circular(
-                playlist['type'] == 'ARTIST' ? 50 : 10,
+                playlist['type'] == 'ARTIST' ? 30 : 8,
               ),
               child: CachedNetworkImage(
-                imageUrl: playlist['thumbnails']?.isNotEmpty == true
-                    ? playlist['thumbnails'].first['url']
-                    : playlist['isPredefined'] == true
-                    ? playlist['thumbnails'].first['url'].replaceAll(
-                        'w540-h225',
-                        'w60-h60',
-                      )
-                    : playlist['songs'].first['thumbnails'].first['url'],
-                height: 50,
-                width: 50,
+                imageUrl: playlist['thumbnails'].first['url'].replaceAll(
+                  'w540-h225',
+                  'w60-h60',
+                ),
+                height: 40,
+                width: 40,
               ),
             )
           : Container(
-              height: 50,
-              width: 50,
+              padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                color: greyColor,
-                borderRadius: BorderRadius.circular(
-                  playlist['type'] == 'ARTIST' ? 50 : 10,
-                ),
+                color: Theme.of(context).colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(
-                CupertinoIcons.music_note_list,
-                color: context.isDarkMode ? Colors.white : Colors.black,
+              child: RoundedPolygonIcon(
+                polygon: RandomMaterialShape.random,
+                size: 30,
               ),
             ),
       subtitle: playlist['subtitle'] != null
@@ -1361,17 +1354,10 @@ BottomModalLayout _favouritesBottomModal(BuildContext context, Map playlist) {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
-      leading: Container(
-        height: 50,
-        width: 50,
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primaryContainer,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Icon(
-          AdaptiveIcons.heart_fill,
-          color: Theme.of(context).colorScheme.onPrimaryContainer,
-        ),
+      leading: ColorIcon(
+        icon: FluentIcons.heart_24_filled,
+        color: Theme.of(context).colorScheme.primaryContainer,
+        size: 30,
       ),
     ),
     child: SingleChildScrollView(
@@ -1421,17 +1407,10 @@ BottomModalLayout _downloadBottomModal(BuildContext context) {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
-      leading: Container(
-        height: 50,
-        width: 50,
-        decoration: BoxDecoration(
-          color: greyColor,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Icon(
-          AdaptiveIcons.download,
-          color: context.isDarkMode ? Colors.white : Colors.black,
-        ),
+      leading: ColorIcon(
+        icon: FluentIcons.cloud_arrow_down_24_filled,
+        color: Theme.of(context).colorScheme.primaryContainer,
+        size: 30,
       ),
     ),
     child: SingleChildScrollView(
