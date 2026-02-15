@@ -74,7 +74,7 @@ void main() async {
   MediaPlayer mediaPlayer = MediaPlayer();
   GetIt.I.registerSingleton<MediaPlayer>(mediaPlayer);
 
-  LibraryService libraryService = LibraryService();
+  LibraryService libraryService = await LibraryService.create();
   GetIt.I.registerSingleton<LibraryService>(libraryService);
 
   DownloadManager downloadManager = await DownloadManager.create();
@@ -166,7 +166,6 @@ Future<void> initialiseHive() async {
         "${(await getApplicationSupportDirectory()).path}/database";
   }
   await Hive.initFlutter(applicationDataDirectoryPath);
-  await Hive.openBox('LIBRARY');
 }
 
 Future<YTConfig?>? getYtConfig(SettingsManager settingsManager) async {

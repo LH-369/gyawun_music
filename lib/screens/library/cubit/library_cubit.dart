@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:gyawun/services/download_manager.dart';
 import 'package:gyawun/services/favourites_manager.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../../services/library.dart';
 import '../../../services/history_manager.dart';
@@ -13,7 +12,6 @@ part 'library_state.dart';
 class LibraryCubit extends Cubit<LibraryState> {
   final LibraryService libraryService;
 
-  late final Box _libraryBox;
   late final FavouritesManager _favouritesManager;
   late final DownloadManager _downloadsManager;
   late final SongHistory _songHistory;
@@ -21,14 +19,13 @@ class LibraryCubit extends Cubit<LibraryState> {
   late final VoidCallback _listener;
 
   LibraryCubit(this.libraryService) : super(const LibraryLoading()) {
-    _libraryBox = Hive.box('LIBRARY');
     _favouritesManager = GetIt.I<FavouritesManager>();
     _downloadsManager = GetIt.I<DownloadManager>();
     _songHistory = GetIt.I<HistoryManager>().songs;
 
     _listener = _emitCurrentState;
 
-    _libraryBox.listenable().addListener(_listener);
+    libraryService.addListener(_listener);
     _favouritesManager.listenable.addListener(_listener);
     _downloadsManager.downloadsNotifier.addListener(_listener);
     _songHistory.listenable.addListener(_listener);
@@ -57,7 +54,7 @@ class LibraryCubit extends Cubit<LibraryState> {
 
   @override
   Future<void> close() {
-    _libraryBox.listenable().removeListener(_listener);
+    libraryService.removeListener(_listener);
     _favouritesManager.listenable.removeListener(_listener);
     _downloadsManager.downloadsNotifier.removeListener(_listener);
     _songHistory.listenable.removeListener(_listener);
