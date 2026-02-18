@@ -63,7 +63,7 @@ class SearchCubit extends Cubit<SearchState> {
     try {
       List<Map<String, dynamic>> suggestions = await _ytmusic
           .getSearchSuggestions(query);
-      return suggestions;
+      return suggestions.isNotEmpty ? suggestions : _searchHistory.getList();
     } catch (e) {
       return [];
     }
