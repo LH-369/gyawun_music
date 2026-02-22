@@ -125,7 +125,11 @@ class _HistoryBody extends StatelessWidget {
                           },
                         ),
                       ],
-                      child: SongTile(song: song),
+                      child: SongTile(
+                        song: song,
+                        isFirst: index == 0,
+                        isLast: index == songs.length - 1,
+                      ),
                     ),
                   );
                 }, childCount: songs.length),
