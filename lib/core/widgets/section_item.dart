@@ -155,13 +155,21 @@ class SingleColumnList extends StatelessWidget {
   final List songs;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: songs.map((song) {
+    return ListView.builder(
+      shrinkWrap: true,
+      padding: EdgeInsets.zero,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: songs.length,
+      itemBuilder: (context, index) {
         return Padding(
-          padding: const .symmetric(horizontal: 8, vertical: 4),
-          child: SongTile(song: song),
+          padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 4),
+          child: SongTile(
+            song: songs[index],
+            isFirst: index == 0,
+            isLast: index == (songs.length - 1),
+          ),
         );
-      }).toList(),
+      },
     );
   }
 }
