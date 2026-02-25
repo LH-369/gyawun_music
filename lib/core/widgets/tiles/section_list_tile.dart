@@ -85,16 +85,17 @@ class SectionListTile extends StatelessWidget {
             context,
           ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w700),
         ),
-        subtitle: item['subtitle'] == null
-            ? null
-            : Text(
-                item['subtitle']!,
-                maxLines: 1,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
-                ),
-              ),
+        subtitle: Text(
+          item['subtitle'] ??
+              item['artists']?.map((e) => e['name'])?.join(',') ??
+              '',
+          maxLines: 1,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w600,
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
+          ),
+          overflow: TextOverflow.ellipsis,
+        ),
         trailing: item['videoId'] != null
             ? IconButton(
                 onPressed: () {
