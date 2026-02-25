@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -94,14 +95,14 @@ class SectionListTile extends StatelessWidget {
                   color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                 ),
               ),
-        trailing: IconButton(
-          onPressed: () {
-            if (item['videoId'] != null) {
-              Modals.showSongBottomModal(context, item);
-            }
-          },
-          icon: const Icon(Icons.more_vert_rounded),
-        ),
+        trailing: item['videoId'] != null
+            ? IconButton(
+                onPressed: () {
+                  Modals.showSongBottomModal(context, item);
+                },
+                icon: const Icon(Icons.more_vert_rounded),
+              )
+            : Icon(FluentIcons.chevron_right_24_filled),
       ),
     );
   }
