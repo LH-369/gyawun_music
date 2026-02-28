@@ -19,7 +19,7 @@ class SectionRowTile extends StatelessWidget {
     final imageWidth = (isHorizontal ? imageHeight * (16 / 9) : imageHeight)
         .toInt();
     final thumbnail = (item['thumbnails'] as List).length > 2
-        ? item['thumbnails'][1]
+        ? item['thumbnails'][1]['url']
         : item['thumbnails'][0]['url'];
     return Material(
       color: Colors.transparent,
