@@ -110,6 +110,12 @@ class DownloadManager {
           },
         };
         mapToUpdate[key.toString()] = song;
+      } else if (song["playlists"] is Map &&
+          (song["playlists"] as Map).keys.contains("songs")) {
+        // 2) RENAME OLD SONGS PLAYLIST
+        final pl = song["playlists"].remove("songs");
+        song["playlists"][songsPlaylistId] = pl;
+        mapToUpdate[key.toString()] = song;
       }
     }
     // 1) UPDATE DOWNLOADS
