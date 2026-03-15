@@ -283,5 +283,9 @@
   "Edit_Playlist": "Modifica Playlist",
   "@Edit_Playlist": {},
   "Select_Playlist_Icon": "Seleziona Icona Playlist",
-  "@Select_Playlist_Icon": {}
+  "@Select_Playlist_Icon": {},
+  "Top_Results": "Risultati Principali",
+  "@Top_Results": {},
+  "Other_Results": "Altri Risultati",
+  "@Other_Results": {}
 }
