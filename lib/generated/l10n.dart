@@ -1136,6 +1136,21 @@ class S {
       args: [],
     );
   }
+
+  /// `Top Results`
+  String get Top_Results {
+    return Intl.message('Top Results', name: 'Top_Results', desc: '', args: []);
+  }
+
+  /// `Other Results`
+  String get Other_Results {
+    return Intl.message(
+      'Other Results',
+      name: 'Other_Results',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

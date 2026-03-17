@@ -16,6 +16,7 @@ import '../../../generated/l10n.dart';
 import '../../../services/media_player.dart';
 import '../../../utils/adaptive_widgets/adaptive_widgets.dart';
 import '../../../utils/bottom_modals.dart';
+import '../../core/widgets/tiles/section_list_tile.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key, this.endpoint, this.isMore = false});
@@ -40,17 +41,41 @@ class _SearchPage extends StatefulWidget {
   State<_SearchPage> createState() => _SearchPageState();
 }
 
-class _SearchPageState extends State<_SearchPage> {
+class _SearchPageState extends State<_SearchPage> with WidgetsBindingObserver {
   late ScrollController _scrollController;
-  TextEditingController? _textEditingController;
-  FocusNode? _focusNode;
+  final TextEditingController _textEditingController = TextEditingController();
+  final SuggestionsController _suggestionsController = SuggestionsController();
+  final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
-    _focusNode?.requestFocus();
+    WidgetsBinding.instance.addObserver(this);
+    _focusNode.requestFocus();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _scrollController.dispose();
+    _textEditingController.dispose();
+    _suggestionsController.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    super.didChangeMetrics();
+    if (_focusNode.hasFocus) {
+      Future.delayed(const Duration(milliseconds: 300), () {
+        if (mounted) {
+          _suggestionsController.resize();
+        }
+      });
+    }
   }
 
   Future<void> _scrollListener() async {
@@ -62,7 +87,7 @@ class _SearchPageState extends State<_SearchPage> {
 
   Future<void> onSubmit(String query) async {
     if (query.trim() == '') return;
-    _focusNode?.unfocus();
+    _focusNode.unfocus();
     await context.read<SearchCubit>().search(query);
   }
 
@@ -70,8 +95,8 @@ class _SearchPageState extends State<_SearchPage> {
   Widget build(BuildContext context) {
     return InternetGuard(
       onConnectivityRestored: () {
-        if (_textEditingController?.text != null) {
-          context.read<SearchCubit>().search(_textEditingController!.text);
+        if (_textEditingController.text.isNotEmpty) {
+          context.read<SearchCubit>().search(_textEditingController.text);
         }
       },
       child: Scaffold(
@@ -88,15 +113,21 @@ class _SearchPageState extends State<_SearchPage> {
                           children: [
                             Expanded(
                               child: TypeAheadField(
+                                focusNode: _focusNode,
+                                controller: _textEditingController,
+                                suggestionsController: _suggestionsController,
                                 suggestionsCallback: (query) => context
                                     .read<SearchCubit>()
                                     .getSuggestions(query),
+                                loadingBuilder: (context) => Container(
+                                  height: 60,
+                                  alignment: Alignment.center,
+                                  child: ExpressiveLoadingIndicator(),
+                                ),
                                 builder: (context, controller, focusNode) {
-                                  _textEditingController = controller;
-                                  _focusNode = focusNode;
                                   return AdaptiveTextField(
-                                    focusNode: _focusNode,
-                                    controller: _textEditingController,
+                                    focusNode: focusNode,
+                                    controller: controller,
                                     onSubmitted: onSubmit,
                                     keyboardType: TextInputType.text,
                                     maxLines: 1,
@@ -119,7 +150,7 @@ class _SearchPageState extends State<_SearchPage> {
                                     suffix: GestureDetector(
                                       onTap: () {
                                         setState(() {
-                                          _textEditingController?.text = '';
+                                          _textEditingController.text = '';
                                         });
                                       },
                                       child: const Icon(
@@ -128,22 +159,29 @@ class _SearchPageState extends State<_SearchPage> {
                                     ),
                                   );
                                 },
-                                decorationBuilder: Platform.isWindows
-                                    ? (context, child) {
-                                        return Ink(
-                                          padding: EdgeInsets.zero,
-                                          decoration: BoxDecoration(
-                                            color: AdaptiveTheme.of(
-                                              context,
-                                            ).inactiveBackgroundColor,
-                                            borderRadius: BorderRadius.circular(
-                                              4,
-                                            ),
-                                          ),
-                                          child: child,
-                                        );
-                                      }
-                                    : null,
+                                decorationBuilder: (context, child) {
+                                  if (Platform.isWindows) {
+                                    return Ink(
+                                      padding: EdgeInsets.zero,
+                                      decoration: BoxDecoration(
+                                        color: AdaptiveTheme.of(
+                                          context,
+                                        ).inactiveBackgroundColor,
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: child,
+                                    );
+                                  } else {
+                                    return Material(
+                                      elevation: 5,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.surfaceContainerLowest,
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: child,
+                                    );
+                                  }
+                                },
                                 itemBuilder: (context, value) {
                                   if (value['type'] == 'TEXT') {
                                     return AdaptiveListTile(
@@ -153,7 +191,7 @@ class _SearchPageState extends State<_SearchPage> {
                                       title: Text(value['query']),
                                       onTap: () {
                                         setState(() {
-                                          _textEditingController?.text =
+                                          _textEditingController.text =
                                               value['query'];
                                         });
                                         onSubmit(value['query']);
@@ -194,13 +232,16 @@ class _SearchPageState extends State<_SearchPage> {
                       padding: const EdgeInsets.all(8),
                       child: Column(
                         children: [
-                          ...state.sections.map((section) {
+                          ...state.sections.asMap().entries.map((entry) {
+                            int index = entry.key;
+                            var section = entry.value;
                             if (Platform.isWindows) {
                               return Center(
                                 child: Adaptivecard(
                                   borderRadius: BorderRadius.circular(8),
                                   child: _SearchSectionItem(
                                     section: section,
+                                    isFirst: index == 0,
                                     isMore: widget.isMore,
                                   ),
                                 ),
@@ -208,6 +249,7 @@ class _SearchPageState extends State<_SearchPage> {
                             }
                             return _SearchSectionItem(
                               section: section,
+                              isFirst: index == 0,
                               isMore: widget.isMore,
                             );
                           }),
@@ -227,51 +269,73 @@ class _SearchPageState extends State<_SearchPage> {
 }
 
 class _SearchSectionItem extends StatelessWidget {
-  const _SearchSectionItem({required this.section, this.isMore = false});
+  const _SearchSectionItem({
+    required this.section,
+    this.isFirst = false,
+    this.isMore = false,
+  });
   final Map<String, dynamic> section;
+  final bool isFirst;
   final bool isMore;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        if (section['title'] != null && !isMore)
-          AdaptiveListTile(
-            contentPadding: const EdgeInsets.symmetric(
-              vertical: 4,
-              horizontal: 4,
-            ),
-            title: Text(
-              section['title'],
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            trailing: section['trailing']?['text'] != null
-                ? Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: Platform.isAndroid ? 12 : 0,
-                    ),
-                    child: AdaptiveOutlinedButton(
-                      onPressed: () {
-                        context.push(
-                          '/search',
-                          extra: {
-                            'endpoint': section['trailing']['endpoint'],
-                            'isMore': true,
-                          },
-                        );
-                      },
-                      child: Text(
-                        section['trailing']['text'],
-                        style: const TextStyle(fontSize: 12),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Column(
+        children: [
+          if (!isMore)
+            AdaptiveListTile(
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 4,
+                horizontal: 4,
+              ),
+              title: Text(
+                section['title'] ?? isFirst
+                    ? S().Top_Results
+                    : S().Other_Results,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              trailing: section['trailing']?['text'] != null
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: Platform.isAndroid ? 12 : 0,
                       ),
-                    ),
-                  )
-                : null,
-          ),
-        ...section['contents'].map((item) {
-          return _SearchListTile(item: item);
-        }),
-      ],
+                      child: AdaptiveOutlinedButton(
+                        onPressed: () {
+                          context.push(
+                            '/search',
+                            extra: {
+                              'endpoint': section['trailing']['endpoint'],
+                              'isMore': true,
+                            },
+                          );
+                        },
+                        child: Text(
+                          section['trailing']['text'],
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      ),
+                    )
+                  : null,
+            ),
+          ...section['contents'].asMap().entries.map((entry) {
+            int index = entry.key;
+            var item = entry.value;
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 4),
+              child: SectionListTile(
+                item: item,
+                isFirst: index == 0,
+                isLast: index == section['contents'].length - 1,
+              ),
+            );
+          }).toList(),
+        ],
+      ),
     );
   }
 }

@@ -163,6 +163,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "No offline songs available",
     ),
     "Organisation": MessageLookupByLibrary.simpleMessage("Organisation"),
+    "Other_Results": MessageLookupByLibrary.simpleMessage("Other Results"),
     "Pay_With_UPI": MessageLookupByLibrary.simpleMessage("Pay with UPI"),
     "Payment_Methods": MessageLookupByLibrary.simpleMessage("Payment Methods"),
     "Personalised_Content": MessageLookupByLibrary.simpleMessage(
@@ -253,6 +254,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "Telegram": MessageLookupByLibrary.simpleMessage("Telegram"),
     "Theme_Mode": MessageLookupByLibrary.simpleMessage("Theme Mode"),
+    "Top_Results": MessageLookupByLibrary.simpleMessage("Top Results"),
     "Translate_Lyrics": MessageLookupByLibrary.simpleMessage(
       "Translate Lyrics",
     ),
