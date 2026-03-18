@@ -173,6 +173,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Nessun brano scaricato",
     ),
     "Organisation": MessageLookupByLibrary.simpleMessage("Organizzazione"),
+    "Other_Results": MessageLookupByLibrary.simpleMessage("Altri Risultati"),
     "Pay_With_UPI": MessageLookupByLibrary.simpleMessage("Paga con UPI"),
     "Payment_Methods": MessageLookupByLibrary.simpleMessage(
       "Metodi di pagamento",
@@ -269,6 +270,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "Telegram": MessageLookupByLibrary.simpleMessage("Telegram"),
     "Theme_Mode": MessageLookupByLibrary.simpleMessage("Tema"),
+    "Top_Results": MessageLookupByLibrary.simpleMessage("Risultati Principali"),
     "Translate_Lyrics": MessageLookupByLibrary.simpleMessage("Traduci testi"),
     "Version": MessageLookupByLibrary.simpleMessage("Versione"),
     "View_Equalizer": MessageLookupByLibrary.simpleMessage(
