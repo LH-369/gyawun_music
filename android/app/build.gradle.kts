@@ -77,18 +77,17 @@ android {
         }
     }
 
-    buildTypes {
-        getByName("release") {
-            // signingConfig = signingConfigs.getByName("release")
-            ndk {
-                debugSymbolLevel = "none"
-            }
-        }
-    }
-
-    packaging {
-        jniLibs {
-            useLegacyPackaging = true
+buildTypes {
+    getByName("release") {
+        // 注释掉签名
+        // signingConfig = signingConfigs.getByName("release")
+        
+        // 添加这两行，禁用混淆和压缩
+        isMinifyEnabled = false
+        isShrinkResources = false
+        
+        ndk {
+            debugSymbolLevel = "none"
         }
     }
 }
