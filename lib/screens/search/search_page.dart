@@ -143,7 +143,7 @@ class _SearchPageState extends State<_SearchPage> with WidgetsBindingObserver {
                                     borderRadius: BorderRadius.circular(
                                       Platform.isWindows ? 4.0 : 35,
                                     ),
-                                    hintText: S.of(context).Search_Gyawun,
+                                    hintText: '大王喵',
                                     prefix: constraints.maxWidth > 400
                                         ? null
                                         : const AdaptiveBackButton(),
